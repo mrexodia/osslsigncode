@@ -1,0 +1,35 @@
+# Reference: https://build-cpp.github.io/cmkr/cmake-toml
+[project]
+name = "osslsigncode"
+
+[vcpkg]
+version = "2021.05.12"
+packages = [
+    "openssl",
+    "curl",
+]
+
+[find-package.OpenSSL]
+[find-package.CURL]
+
+[target.osslsigncode]
+type = "executable"
+sources = [
+    "osslsigncode.c",
+    "msi.c",
+    "msi.h",
+]
+link-libraries = [
+    "OpenSSL::SSL",
+    "OpenSSL::Crypto",
+    "CURL::libcurl",
+]
+compile-definitions = [
+    "ENABLE_CURL",
+    "HAVE_WINDOWS_H",
+    "PACKAGE_STRING=\"osslsigncode 2.2\"",
+    "PACKAGE_BUGREPORT=\"Michal.Trojnara@stunnel.org\"",
+]
+msvc.compile-definitions = [
+    "R_OK=4",
+]

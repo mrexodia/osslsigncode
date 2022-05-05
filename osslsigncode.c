@@ -5618,7 +5618,7 @@ static int main_configure(int argc, char **argv, cmd_type_t *cmd, GLOBAL_OPTIONS
 				usage(argv0, "all");
 				return 0; /* FAILED */
 			}
-			options->signing_time = (time_t)strtoul(*(++argv), NULL, 10);
+			options->signing_time = (time_t)strtoll(*(++argv), NULL, 10);
 #ifdef ENABLE_CURL
 		} else if ((*cmd == CMD_SIGN || *cmd == CMD_ADD) && !strcmp(*argv, "-t")) {
 			if (--argc < 1) {
@@ -5864,6 +5864,7 @@ int main(int argc, char **argv)
 	if (cmd != CMD_VERIFY) {
 		/* Create outdata file */
 #ifdef WIN32
+		// TODO: this is stupid, delete the destination file and try again
 		if (!access(options.outfile, R_OK))
 			/* outdata file exists */
 			DO_EXIT_1("Failed to create file: %s\n", options.outfile);
